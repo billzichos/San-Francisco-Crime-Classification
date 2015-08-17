@@ -17,7 +17,7 @@ library("dplyr")
 train <- select(train, Id, Dates, Category, Descript, DayOfWeek, PdDistrict, Resolution, Address, X, Y, Source)
 test <- select(test, Id, Dates, Category, Descript, DayOfWeek, PdDistrict, Resolution, Address, X, Y, Source)
 
-        df <- rbind(train, test)
+df <- rbind(train, test)
 
 # add variables that are needed for submission
 sub <- read.csv("sampleSubmission.csv")
@@ -29,7 +29,7 @@ cols[17] <- "LARCENY/THEFT"
 cols[21] <- "NON-CRIMINAL"
 cols[23] <- "PORNOGRAPHY/OBSCENE MAT"
 df[,c(cols)] <- 0
-
+for (i in cols) {df[df$Category==i,i] <- 1}
 
 # derive some date/time-related variables
 library("lubridate")
@@ -66,17 +66,17 @@ df[which(df$PdDistrict=="SOUTHERN"),which(names(df)=="PdDistrict.SOUTHERN.flag")
 # if intersection:
 df$Address.Intersection.Street1 <- ""
 df$Address.Intersection.Street2 <- ""
-        # split the string on " " - strsplit("1500 Block of OAK ST", " ")
-        # remove "/", "ST", "AV" anything else?
-        # confirm only 2 values remain
-        # order the values alphabetically
-        # capture first alpha ordered street in df$Address.Intersection.Street1
-        # capture 2nd alpha ordered street in df$Address.Intersection.Street2
+# split the string on " " - strsplit("1500 Block of OAK ST", " ")
+# remove "/", "ST", "AV" anything else?
+# confirm only 2 values remain
+# order the values alphabetically
+# capture first alpha ordered street in df$Address.Intersection.Street1
+# capture 2nd alpha ordered street in df$Address.Intersection.Street2
 # if block:
 df$Address.Block.Number <- 0
 df$Address.Block.Street < ""
-        # capture block number in df$Address.Block.Number
-        # capture street name in df$Address.Block.Street
+# capture block number in df$Address.Block.Number
+# capture street name in df$Address.Block.Street
 # intersections - OAK ST / LAGUNA ST
 grep(" / ", df$Address)
 # blocks - 1500 Block of ####
