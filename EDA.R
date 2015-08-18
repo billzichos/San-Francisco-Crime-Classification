@@ -40,27 +40,10 @@ df$Dates.Wkdy <- wday(df$Dates)
 df$Dates.LogNumeric <- log10(as.numeric(as.POSIXct(df$Dates)))
 
 # derive some PD District-related variables
-df$PdDistrict.NORTHERN.flag <- 0
-df$PdDistrict.PARK.flag <- 0
-df$PdDistrict.INGLESIDE.flag <- 0
-df$PdDistrict.BAYVIEW.flag <- 0
-df$PdDistrict.RICHMOND.flag <- 0
-df$PdDistrict.CENTRAL.flag <- 0
-df$PdDistrict.TARAVAL.flag <- 0
-df$PdDistrict.TENDERLOIN.flag <- 0
-df$PdDistrict.MISSION.flag <- 0
-df$PdDistrict.SOUTHERN.flag <- 0
-
-df[which(df$PdDistrict=="NORTHERN"),which(names(df)=="PdDistrict.NORTHERN.flag")] <- 1
-df[which(df$PdDistrict=="PARK"),which(names(df)=="PdDistrict.PARK.flag")] <- 1
-df[which(df$PdDistrict=="INGLESIDE"),which(names(df)=="PdDistrict.INGLESIDE.flag")] <- 1
-df[which(df$PdDistrict=="BAYVIEW"),which(names(df)=="PdDistrict.BAYVIEW.flag")] <- 1
-df[which(df$PdDistrict=="RICHMOND"),which(names(df)=="PdDistrict.RICHMOND.flag")] <- 1
-df[which(df$PdDistrict=="CENTRAL"),which(names(df)=="PdDistrict.CENTRAL.flag")] <- 1
-df[which(df$PdDistrict=="TARAVAL"),which(names(df)=="PdDistrict.TARAVAL.flag")] <- 1
-df[which(df$PdDistrict=="TENDERLOIN"),which(names(df)=="PdDistrict.TENDERLOIN.flag")] <- 1
-df[which(df$PdDistrict=="MISSION"),which(names(df)=="PdDistrict.MISSION.flag")] <- 1
-df[which(df$PdDistrict=="SOUTHERN"),which(names(df)=="PdDistrict.SOUTHERN.flag")] <- 1
+pdCols <- unique(df$PdDistrict)
+pdCols <- paste("PdDistrict.", pdCols, ".flag", sep = "")
+df[,c(pdCols)] <- 0
+for (i in pdCols) {df[df$PdDistrict==gsub(".flag|PdDistrict.", "", i),i] <- 1}
 
 # derive some address-related features
 # if intersection:
