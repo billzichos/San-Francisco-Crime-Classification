@@ -64,11 +64,30 @@ df$Address.Block.Street < ""
 grep(" / ", df$Address)
 # blocks - 1500 Block of ####
 grep("Block of", df$Address)
-grep("^[0:9]{1,6}", df$Address)
+grep("^[0:9]{1,6} Block of ", df$Address)
 strsplit(df$Address, " ")
 # Does AVE vs. ST mean anything like it does in NY - NS vs. EW?
 # The numbered avenues run N/S and make up the Sunset District on the West Side.
 # Does the ordering of streets for intersections have any meaning?
+sanFranAddress <- function(x) {
+        # if intersection:
+        if() {
+                
+        }
+        # remove "/", "ST", "AV" anything else?
+        # confirm only 2 values remain
+        # order the values alphabetically
+        # capture first alpha ordered street in df$Address.Intersection.Street1
+        # capture 2nd alpha ordered street in df$Address.Intersection.Street2
+        # intersections - OAK ST / LAGUNA ST
+        # if block:
+        else if(grepl("^[0:9]{1,6} Block of ", df$Address)) {
+                
+        }
+        # split the string on " " - strsplit("1500 Block of OAK ST", " ")
+        # capture block number in df$Address.Block.Number
+        # capture street name in df$Address.Block.Street
+}
 
 # block
 # street number
