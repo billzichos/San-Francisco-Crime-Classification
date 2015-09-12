@@ -45,6 +45,21 @@ pdCols <- paste("PdDistrict.", pdCols, ".flag", sep = "")
 df[,c(pdCols)] <- 0
 for (i in pdCols) {df[df$PdDistrict==gsub(".flag|PdDistrict.", "", i),i] <- 1}
 
+# categorize crimes as white or blue-collar
+white.crime <- c("FRAUD", "FORGERY/COUNTERFEITING", "BAD CHECKS" , "EXTORTION", "EMBEZZLEMENT", "SUSPICIOUS OCC",
+                 "BRIBERY")
+blue.crime <- c("VANDALISM", "LARCENY/THEFT", "STOLEN PROPERTY", "ROBBERY", "DRIVING UNDER THE INFLUENCE",
+                "DISORDERLY CONDUCT", "LIQUOR LAWS", "VEHICLE THEFT", "ASSAULT", "KIDNAPPING", "TRESPASS", 
+                "ARSON", "RECOVERED VEHICLE")
+other.crime <- c("MISSING PERSON", "RUNAWAY", "FAMILY OFFENSES", "SEX OFFENSES NON FORCIBLE",
+                 "PORNOGRAPHY/OBSCENE MAT", "WEAPON LAWS", "DRUNKENNESS", "SUICIDE", "TREA",
+                 "DRUG/NARCOTIC", "SEX OFFENSES FORCIBLE",  "LOITERING", "WARRANTS", "OTHER OFFENSES",
+                 "NON-CRIMINAL", "BURGLARY", "SECONDARY CODES", "PROSTITUTION", "GAMBLING")
+df$Collar <- "Other"
+df$Collar[df$Category %in% white.crime] <- "White"
+df$Collar[df$Category %in% blue.crime] <- "Blue"
+df$Collar <- as.factor(df$Collar)
+
 # derive some address-related features
 # if intersection:
 df$Address.Intersection.Street1 <- ""
